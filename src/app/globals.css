@@ -1,3 +1,4 @@
+/* @tailwind directives are processed by postcss */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,12 +6,36 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* HeroUI expected variables */
+  --hero-background: #ffffff;
+  --hero-foreground: #11181C;
+  --hero-content1: #ffffff;
+  --hero-content2: #f4f4f5;
+  --hero-content3: #e4e4e7;
+  --hero-content4: #d4d4d8;
+  --hero-default: #71717A;
+  --hero-default-foreground: #ECEDEE;
+  --hero-primary: #0070F0;
+  --hero-primary-foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    
+    /* HeroUI expected variables */
+    --hero-background: #000000;
+    --hero-foreground: #ECEDEE;
+    --hero-content1: #16181A;
+    --hero-content2: #26282B;
+    --hero-content3: #2C2F33;
+    --hero-content4: #3A3D42;
+    --hero-default: #A1A1AA;
+    --hero-default-foreground: #11181C;
+    --hero-primary: #0070F0;
+    --hero-primary-foreground: #ffffff;
   }
 }
 
