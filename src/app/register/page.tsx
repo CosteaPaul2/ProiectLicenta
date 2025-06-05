@@ -41,7 +41,7 @@ export default function RegisterPage() {
                 username: formData.username,
                 password: formData.password,
             });
-
+            console.log(response);
             // Auto sign in after registration
             const result = await signIn("credentials", {
                 email: formData.email,
@@ -55,11 +55,13 @@ export default function RegisterPage() {
 
             router.push("/dashboard");
             router.refresh();
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || "Registration failed");
-            } else {
+            } else if (error instanceof Error) {
                 setError(error.message || "Registration failed");
+            } else {
+                setError("Registration failed");    
             }
             console.error(error);
         } finally {

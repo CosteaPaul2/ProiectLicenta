@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button, Input, Link as HeroLink, Form, Divider, Link } from "@heroui/react";
+import { Button, Input, Form, Divider, Link } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
 export default function LoginPage() {

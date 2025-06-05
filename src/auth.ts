@@ -76,7 +76,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.id = user.id as string;
         token.email = user.email as string;
-        token.username = (user as any).username;
+        token.username = (user as { username?: string }).username;
       }
       return token;
     },
@@ -99,5 +99,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         secure: process.env.NODE_ENV === 'production',
       },
     },
-  }
+  },
+  trustHost: true,
 })  
