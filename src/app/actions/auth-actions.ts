@@ -4,6 +4,7 @@ import { db } from "@/db/dbClient";
 import { users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
 import { verifyPassword } from "../utils/password";
+import { createUniqueId } from "../utils/createUniqueId";
 
 export async function getUserByEmail(email: string) {
   try {
@@ -43,22 +44,37 @@ export async function verifyCredentials(email: string, password: string) {
   }
 }
 
-export async function createOrUpdateGoogleUser(id: string, email: string, name: string) {
+export async function createOrUpdateGoogleUser(googleId: string, email: string, name: string) {
   try {
+    // First check if user already exists by email
     const existingUser = await getUserByEmail(email);
     
-    if (!existingUser) {
-      await db.insert(users).values({
-        id,
-        email,
-        username: name || email.split('@')[0],
-        password: '',
-      });
+    if (existingUser) {
+      // Return existing user
+      return {
+        id: existingUser.id,
+        email: existingUser.email,
+        username: existingUser.username,
+      };
     }
     
-    return true;
+    // Create new user with our own database ID
+    const userId = createUniqueId();
+    await db.insert(users).values({
+      id: userId,
+      email,
+      username: name || email.split('@')[0],
+      password: '', // Empty password for OAuth users
+    });
+    
+    // Return the newly created user
+    return {
+      id: userId,
+      email,
+      username: name || email.split('@')[0],
+    };
   } catch (error) {
     console.error("Error creating/updating Google user:", error);
-    return false;
+    return null;
   }
 } 

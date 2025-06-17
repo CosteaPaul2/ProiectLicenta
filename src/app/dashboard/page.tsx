@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { DashboardClient } from "@/components/DashboardClient";
-
+import DashboardClient from "@/components/DashboardClient";
 
 export default async function DashboardPage() {
     const session = await auth();
@@ -11,12 +10,9 @@ export default async function DashboardPage() {
     }
   
     return (
-        <>
-          <DashboardClient
-            username={session.user.username || ""}
-            email={session.user.email}
-            id={session.user.id} 
-          />
-        </>
+        <DashboardClient
+            userEmail={session.user.email}
+            initialLocations={[]}
+        />
     );
 }

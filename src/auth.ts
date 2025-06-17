@@ -64,11 +64,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
-        await createOrUpdateGoogleUser(
+        const dbUser = await createOrUpdateGoogleUser(
           user.id!,
           user.email!,
           user.name || ""
         );
+        
+        if (dbUser) {
+          // Update the user object with database user info
+          user.id = dbUser.id;
+          user.email = dbUser.email;
+          (user as any).username = dbUser.username;
+        }
       }
       return true;
     },
